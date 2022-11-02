@@ -2,4 +2,4 @@ import { serverHttp } from "./http";
 
 import "./websocket";
 
-serverHttp.listen(3000, () => "Server is running on PORT 3000");
+serverHttp.listen(80, () => console.log("Server is running on PORT 80"));
