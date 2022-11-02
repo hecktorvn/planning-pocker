@@ -105,7 +105,7 @@ function drawPoints() {
     const button = document.createElement("button");
 
     button.dataset.value = point;
-    button.disabled = actualUser.vote != 0 || showCards;
+    button.disabled = showCards;
     button.addEventListener("click", handlePoint);
 
     button.classList.value = `
@@ -113,11 +113,11 @@ function drawPoints() {
       font-bold card point shadow select-none
     `;
 
-    if (actualUser.vote == 0 && !showCards) {
+    if (!voted && !showCards) {
       button.classList.add("hover:scale-125", "hover:-mt-8");
     }
 
-    if ((actualUser.vote != 0 && !voted) || showCards) {
+    if (showCards) {
       button.classList.add("opacity-50", "blur-sm");
     }
 

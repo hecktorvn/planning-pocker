@@ -85,8 +85,6 @@ function getUsers(room: string) {
   const players = users.filter((user) => user.room === room);
   const show = rooms.find(({ id }) => id === room)?.show ?? false;
 
-  console.log(room, show, players, "\n");
-
   return { players, show };
 }
 
