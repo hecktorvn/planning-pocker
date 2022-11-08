@@ -24,10 +24,22 @@
 
 <body class="antialiased font-sans bg-gray-100 min-h-screen overflow-hidden">
 
-    <div class="fixed top left p-2" style="width: 25vw; min-width: 300px;">
+    <div class="fixed top left p-2 flex gap-2" style="width: 35vw; min-width: 300px;">
         <input type="text" id="share"
-            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            class="block flex-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             readonly>
+
+        <button type="button" id="newgame"
+            class="flex justify-center items-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+            <!-- Heroicon name: mini/plus -->
+            <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                aria-hidden="true">
+                <path
+                    d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+            </svg>
+
+            New Game
+        </button>
     </div>
 
     <div class="mx-auto max-w-7xl py-12 sm:px-6 lg:px-8 min-h-screen flex gap-3 flex-col items-center justify-center">
@@ -68,4 +80,6 @@
 </html>
 
 <script src="/socket.io/socket.io.js"></script>
+
+<script src="helpers.js"></script>
 <script src="game.js"></script>

@@ -13,16 +13,16 @@
 
 <body class="antialiased font-sans bg-gray-100 min-h-screen overflow-hidden">
     <div class="mx-auto max-w-7xl py-12 sm:px-6 lg:px-8 min-h-screen flex items-center">
-        <form class="mx-auto max-w-2xl" action="game.html" id="newgame">
+        <form class="mx-auto max-w-2xl" action="game.html">
             <input type="text" name="room" id="room" class="hidden" />
 
             <div class="overflow-hidden bg-blue-100 sm:rounded-lg p-10 flex flex-col gap-3">
                 <label for="name" class="sr-only">Name</label>
-                <input type="text" required name="username" id="name"
+                <input type="text" required id="username"
                     class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     placeholder="Enter your name">
 
-                <button type="submit" id="newgameButton"
+                <button type="submit" id="newgame"
                     class="flex justify-center items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                     <!-- Heroicon name: mini/plus -->
                     <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
@@ -40,4 +40,5 @@
 
 </html>
 
+<script src="helpers.js"></script>
 <script src="index.js"></script>

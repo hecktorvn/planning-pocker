@@ -2,31 +2,32 @@ const socket = io();
 const points = "1,2,3,4,5,6,7,8,9,10";
 
 let usersOnRoom = [];
-let actualUser = null;
+let loggedUser = new User();
 let showCards = false;
 let average = 0;
 
+const newGame = document.getElementById("newgame");
 const domPlayers = document.getElementById("players");
+const room = loggedUser.room;
 
-const urlSearch = new URLSearchParams(window.location.search);
-const username = urlSearch.get("username");
-const room = urlSearch.get("room");
+if (!loggedUser.username) {
+  loggedUser.logout();
+}
 
-socket.emit(
-  "select_room",
-  {
-    username,
-    room,
-  },
-  (data) => render(data)
-);
+newGame.onclick = () => {
+  urlSearch.set("room", uuid());
+  window.location.search = urlSearch.toString();
+};
+
+socket.emit("select_room", { ...loggedUser }, (data) => render(data));
 
 socket.on("connect_player", (data) => render(data));
 socket.on("player_vote", (data) => render(data));
 socket.on("show_cards", (data) => render(data));
 
 function render({ show, players }) {
-  actualUser = players.find((player) => player.username === username);
+  loggedUser.vote =
+    players.find((player) => player.username === loggedUser.username).vote ?? 0;
 
   setShowCards(show);
   drawUsers(players);
@@ -68,7 +69,8 @@ function drawUsers(users) {
   });
 
   if (showCards) {
-    average = average / users.length;
+    average = average / users.filter(({ vote }) => vote != 0).length;
+    average = parseFloat(average).toFixed(2) * 1;
   } else {
     average = 0;
   }
@@ -101,7 +103,7 @@ function drawPoints() {
   container.innerHTML = "";
 
   points.split(",").forEach((point) => {
-    const voted = actualUser.vote != 0 && point == actualUser.vote;
+    const voted = loggedUser.vote != 0 && point == loggedUser.vote;
     const button = document.createElement("button");
 
     button.dataset.value = point;
@@ -140,7 +142,7 @@ function handlePoint(event) {
   vote = event.target.dataset.value;
 
   if (vote) {
-    socket.emit("select_point", { username, room, vote }, render);
+    socket.emit("select_point", { ...loggedUser, vote }, render);
   }
 }
 
@@ -152,6 +154,8 @@ document.getElementById("showCards").addEventListener("click", () => {
 
   socket.emit("show_cards", { showCard: true, room }, (data) => render(data));
 });
+
+// SHARE LINK
 
 const shareUrl = window.location.href.replace("game.html", "index.html");
 

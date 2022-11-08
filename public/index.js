@@ -1,14 +1,6 @@
-function uuid() {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-    var r = (Math.random() * 16) | 0,
-      v = c == "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
-}
-
-const urlSearch = new URLSearchParams(window.location.search);
-const form = document.getElementById("newgame");
-const room = document.getElementById("room");
+const form = document.querySelector("form");
+const user = new User((username) => (form.username.value = username));
+const room = form.room;
 
 if (!urlSearch.has("room")) {
   room.value = uuid();
@@ -16,6 +8,12 @@ if (!urlSearch.has("room")) {
   room.value = urlSearch.get("room");
 }
 
-if (urlSearch.has("shared")) {
-  document.getElementById("newgameButton").innerHTML = "Join a Pocker";
+if (urlSearch.has("room")) {
+  document.getElementById("newgame").innerHTML = "Join a Pocker";
 }
+
+form.onsubmit = () => {
+  if (form.username.value.length > 0) {
+    user.login(form.username.value);
+  }
+};
