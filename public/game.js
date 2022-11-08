@@ -6,12 +6,18 @@ let loggedUser = new User();
 let showCards = false;
 let average = 0;
 
+const newGame = document.getElementById("newgame");
 const domPlayers = document.getElementById("players");
 const room = loggedUser.room;
 
 if (!loggedUser.username) {
   loggedUser.logout();
 }
+
+newGame.onclick = () => {
+  urlSearch.set("room", uuid());
+  window.location.search = urlSearch.toString();
+};
 
 socket.emit("select_room", { ...loggedUser }, (data) => render(data));
 
@@ -148,6 +154,8 @@ document.getElementById("showCards").addEventListener("click", () => {
 
   socket.emit("show_cards", { showCard: true, room }, (data) => render(data));
 });
+
+// SHARE LINK
 
 const shareUrl = window.location.href.replace("game.html", "index.html");
 

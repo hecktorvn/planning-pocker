@@ -19,7 +19,7 @@ class User {
   storage = null;
 
   constructor(callback = () => {}) {
-    this.storage = window.sessionStorage;
+    this.storage = window.localStorage;
 
     this.username = this.storage.getItem("username");
 
