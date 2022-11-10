@@ -19,15 +19,18 @@ newGame.onclick = () => {
   window.location.search = urlSearch.toString();
 };
 
-socket.emit("select_room", { ...loggedUser }, (data) => render(data));
+socket.emit("select_room", { ...loggedUser, points }, (data) => render(data));
 
 socket.on("connect_player", (data) => render(data));
 socket.on("player_vote", (data) => render(data));
 socket.on("show_cards", (data) => render(data));
+socket.on("change_points", (data) => render(data));
 
-function render({ show, players }) {
+function render({ show, players, room }) {
   loggedUser.vote =
     players.find((player) => player.username === loggedUser.username).vote ?? 0;
+
+  points = room.points;
 
   setShowCards(show);
   drawUsers(players);
@@ -169,3 +172,9 @@ document.getElementById("share").addEventListener("click", async () => {
     console.error("Error to try copy share link!");
   }
 });
+
+function setPoints(points) {
+  socket.emit("change_points", { ...loggedUser, points }, (data) =>
+    render(data)
+  );
+}

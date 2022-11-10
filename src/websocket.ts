@@ -9,7 +9,7 @@ io.on("connection", (socket) => {
   socket.on("select_room", (data, callback) => {
     socket.join(data.room);
 
-    startRoom(data.room);
+    startRoom(data.room, data.points);
     const userInRoom = getUser(data);
 
     if (userInRoom) {
@@ -79,13 +79,29 @@ io.on("connection", (socket) => {
       }
     }
   });
+
+  socket.on("change_points", (data, callback) => {
+    const room = rooms.find(({ id }) => id === data.room);
+
+    room.points = data.points;
+
+    const players = getUsers(data.room);
+
+    callback(players);
+
+    socket.to(data.room).emit("change_points", players);
+  });
 });
 
 function getUsers(room: string) {
   const players = users.filter((user) => user.room === room);
-  const show = rooms.find(({ id }) => id === room)?.show ?? false;
+  const roomData = rooms.find(({ id }) => id === room);
 
-  return { players, show };
+  return {
+    players,
+    room: roomData,
+    show: roomData ? roomData.show : false,
+  };
 }
 
 function getUser(data: UserRoom): UserRoom | undefined {
@@ -94,13 +110,14 @@ function getUser(data: UserRoom): UserRoom | undefined {
   );
 }
 
-function startRoom(roomId: string): void {
+function startRoom(roomId: string, points: string | null): void {
   const room = rooms.find((room) => room.id === roomId);
 
   if (!room) {
     rooms.push({
       id: roomId,
       show: false,
+      points: points ?? "1,2,3,4,5,6,7,8,9,10",
     });
   }
 }

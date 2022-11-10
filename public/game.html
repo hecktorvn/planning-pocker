@@ -101,7 +101,7 @@
                             <div class="mt-1">
                                 <input type="text" name="points" id="points"
                                     class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                    x-ref="points" :value.window="points">
+                                    x-ref="points">
                             </div>
                         </div>
                     </div>
@@ -110,8 +110,7 @@
                         <button type="button"
                             class="inline-flex w-full justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
                             @click="event => {
-                                points = $refs.points.value;
-                                drawPoints();
+                                setPoints($refs.points.value);
                                 open=false
                             }">Save</button>
                         <button type="button"
